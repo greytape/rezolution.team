@@ -10,7 +10,7 @@
       <ul v-if="isLoggedIn" id="nav-mobile" class="hide-on-med-and-down right">
         <li><router-link to="#">About</router-link></li>
         <li><router-link to="#">My Teams</router-link></li>
-        <li><router-link to="#">My Account</router-link></li>
+        <li><router-link :to="'/myAccount/' + memberId">My Account</router-link></li>
       </ul>
     </div>
   </nav>
@@ -20,6 +20,7 @@
 export default {
   props: {
     isLoggedIn: Boolean,
+    memberId: String,
   },
 }
 </script>

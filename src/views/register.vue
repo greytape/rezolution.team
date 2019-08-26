@@ -54,7 +54,9 @@
     },
     methods: {
       submitForm: function() {
-        db.collection('members').add(this.newUser);
+        db.collection('members').add(this.newUser).then(ref => {
+          ref.update({ id: ref.id});
+        });
         this.$router.push('/');
       },
     },
@@ -81,6 +83,5 @@
     padding: 20px 60px;
     margin: 10% auto;
     width: 70%;
-
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar :isLoggedIn="isLoggedIn"></nav-bar>
+    <nav-bar :isLoggedIn="isLoggedIn" :memberId="memberId"></nav-bar>
     <router-view></router-view>
   </div>
 </template>
@@ -14,7 +14,8 @@
     },
     data: function() {
       return {
-        isLoggedIn: false,
+        isLoggedIn: true,
+        memberId: 'IYeKwWnGs0KNGwVqi23x',
       }
     }
   }

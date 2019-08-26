@@ -34,10 +34,12 @@ Pages
       - Name 
       - Description
       - Frequency of update required
-      - Latest update commentary
-      - Date of Latest update
-      - Update Overdue?
-      - RAG status
+      - latest update 
+        - update commentary
+        - Date of Latest update
+        - Update Overdue?
+        - RAG status at last update
+        - Date date
       - LINK View rezolution
       - (owner only)
         - LINK Edit rezolution
@@ -92,6 +94,7 @@ Data Structure
         - id
         - Commentary
         - RAG Status
+        - update overdue?
         - Date
       - Team
 
