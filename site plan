@@ -1,0 +1,103 @@
+Pages
+
+- Home page (rezolution.team/)
+
+- Registration Page (rezolution.team/register)
+  - email
+  - password
+  - first name
+  - last name
+
+- Login Page (rezolution.team/login)
+  - email
+  - password
+
+- My account page (rezolution.team/account)
+  - List of my teams
+  - list of my rezolutions
+  - edit account details
+  - LINK Create new team page
+
+- Create new team page (rezolution.team/create-new-team)
+  - Team name
+  - Team description
+  - invite team members
+    - as leader?
+
+- View Team Page (rezolution.team/:teamid)
+  - Team name
+  - Team description
+  - List of team members
+    - LINK member public page
+  - each team member
+    - each rezolution
+      - Name 
+      - Description
+      - Frequency of update required
+      - Latest update commentary
+      - Date of Latest update
+      - Update Overdue?
+      - RAG status
+      - LINK View rezolution
+      - (owner only)
+        - LINK Edit rezolution
+        - LINK Provide update
+    - LINK add resolution
+    - Team Comment Box
+    - (admin only)
+      - add new team members
+    
+- Add rezolution (rezolution.team/:member-id/create-new-rezolution)
+  - Name
+  - Description
+
+- View rezolution (rezolution.team/:member-id/:rezolution-id)
+  - Each rezolution update
+    - (owner only)
+      - LINK Edit update
+  - (owner only)
+    - LINK Provide update
+  - Rezolution comment box
+
+- Edit rezoluion (rezolution.team/:member-id/:rezolution-id/edit)
+  - Name
+  - Description
+  - Frequency of update required
+  - Delete rezolution?
+
+- Update rezolution (rezolution.team/:member-id/:rezolution-id/create-new-update)
+  - Date of update (automatic)
+  - Commentary
+  - RAG status
+
+- Edit update (rezolution.team/:member-id/:rezolution-id/:update-id/edit)
+  - Commentary
+  - RAG status
+  - Delete update?
+
+Data Structure
+
+  - Member 
+    - id
+    - email
+    - password
+    - first name
+    - last name
+    - teams
+    - rezolutions
+      - id
+      - Name
+      - Description
+      - Updates
+        - id
+        - Commentary
+        - RAG Status
+        - Date
+      - Team
+
+  - Team
+    - id
+    - Members
+      - id
+
+
