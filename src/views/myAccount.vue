@@ -22,11 +22,14 @@
           <th>Description</th>
           <th>Update Frequency</th>
           <th>Team</th>
+          <th>Provide Update</th>
         </tr>
-        <tr v-for="rezolution in myInfo.rezolutions">
+        <tr v-for="rezolution in myRezolutions">
           <td>{{ rezolution.name }}</td>
           <td>{{ rezolution.description }}</td>
           <td>{{ rezolution.updateFrequency }}</td>
+          <td>Team</td>
+          <td><router-link><i class="material-icons">create</i></router-link></td>
         </tr>
       </table>
       <router-link :to="'/myAccount/' + myInfo.id + '/CreateNewRezolution'"><button class="btn waves-effect waves-light light-green darken-4">Create New Rezolution</button></router-link>
@@ -35,14 +38,15 @@
       <h6>My teams</h6>
       <table>
         <tr>
-          <th>Name</th>
-          <td>{{ myInfo.firstName }} {{ myInfo.lastName }}</td>
+          <td>Name</th>
+          <td>Description</td>
         </tr>
-        <tr>
-          <th>email</th>
-          <td>{{ myInfo.email }}</td>
+        <tr v-for="team in myTeams">
+          <td>{{ team.name }} </td>
+          <td>{{ team.description }} </td>
         </tr>
       </table>
+      <router-link :to="'/myAccount/' + myInfo.id + '/CreateNewTeam'"><button class="btn waves-effect waves-light light-green darken-4">Create New Team</button></router-link>
     </div>
   </div>
   
@@ -55,7 +59,11 @@
   export default {
     data: function() {
       return {
-        myInfo: {},
+        myInfo: {
+          
+        },
+        myTeams: [],
+        myRezolutions: [],
       };
     },
     beforeCreate: function() {
@@ -63,7 +71,26 @@
       db.collection('members').doc(memberId).get().then(doc => {
         this.myInfo = doc.data();
       });
-    }, 
+    },
+    beforeMount: [
+      function() {
+        let memberId = this.$route.params.memberId;
+        let myTeams = db.collection('teams').where('members', 'array-contains', memberId);
+        let myTeamsLocal = [];
+        myTeams.get().then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            myTeamsLocal.push(doc.data());
+          });
+        });
+        this.myTeams = myTeamsLocal;
+      },
+      function() {
+        let memberId = this.$route.params.memberId;
+        db.collection('rezolutions').doc(memberId).get().then(querySnapshot => {
+          this.myRezolutions = querySnapshot.data();
+        });
+      },
+    ],
   } 
   
 </script>

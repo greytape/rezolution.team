@@ -4,6 +4,9 @@ import Home from '@/views/home'
 import Register from '@/views/register'
 import MyAccount from '@/views/myAccount'
 import CreateNewRezolution from '@/views/createNewRezolution'
+import CreateNewTeam from '@/views/createNewTeam'
+import MyTeams from '@/views/myTeams'
+
 
 Vue.use(Router)
 
@@ -27,6 +30,14 @@ export default new Router({
       path: '/myAccount/:memberId/createNewRezolution',
       component: CreateNewRezolution,
     },
+    {
+      path: '/myAccount/:memberId/createNewTeam',
+      component: CreateNewTeam,
+    },
+    {
+      path: ':memberId/myTeams',
+      component: MyTeams,
+    }
 
   ]
 })

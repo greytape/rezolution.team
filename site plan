@@ -13,8 +13,9 @@ Pages
   - password
 
 - My account page (rezolution.team/account)
-  - List of my teams
-  - list of my rezolutions
+  - List of my teams (am i admin or not?, if so can edit)
+  - list of my rezolutions (provide update button)
+  - LINK Create new rezolution
   - edit account details
   - LINK Create new team page
 

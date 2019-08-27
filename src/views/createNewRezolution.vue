@@ -50,10 +50,20 @@
     methods: {
       submitForm: function() {
         let memberId = this.$route.params.memberId;
-        db.collection('members').doc(memberId).update({
-          rezolutions: firebase.firestore.FieldValue.arrayUnion(this.newRezolution)
+        let rezolutionRef = this.randomId();
+        this.newRezolution.id = rezolutionRef;
+        db.collection('rezolutions').doc(memberId).update({
+          [rezolutionRef]: this.newRezolution,
         });
         this.$router.push('/myAccount/' + memberId);
+      },
+      randomId: function() {
+        const alphanum = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9'];
+        let result = '';
+        for (let idx = 0; idx < 10; idx +=1) {
+          result = result.concat(alphanum[Math.floor(Math.random() * alphanum.length)]);
+        }
+        return result;
       },
     },
     mounted: function() {

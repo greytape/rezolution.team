@@ -47,8 +47,6 @@
           lastName: '',
           password: '',
           email: '',
-          rezolutions: [],
-          teams: [],
         }
       };
     },
