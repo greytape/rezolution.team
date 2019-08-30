@@ -54,7 +54,7 @@
 
 
 <script>
-  import db from '@/firebase/init'
+  import { db } from '@/firebase/init'
 
   export default {
     data: function() {
@@ -67,15 +67,15 @@
       };
     },
     beforeCreate: function() {
-      let memberId = this.$route.params.memberId;
-      db.collection('members').doc(memberId).get().then(doc => {
+      let userId = this.$route.params.userId;
+      db.collection('users').doc(userId).get().then(doc => {
         this.myInfo = doc.data();
       });
     },
     beforeMount: [
       function() {
-        let memberId = this.$route.params.memberId;
-        let myTeams = db.collection('teams').where('members', 'array-contains', memberId);
+        let userId = this.$route.params.userId;
+        let myTeams = db.collection('teams').where('users', 'array-contains', userId);
         let myTeamsLocal = [];
         myTeams.get().then(querySnapshot => {
           querySnapshot.forEach(doc => {
@@ -85,8 +85,8 @@
         this.myTeams = myTeamsLocal;
       },
       function() {
-        let memberId = this.$route.params.memberId;
-        db.collection('rezolutions').doc(memberId).get().then(querySnapshot => {
+        let userId = this.$route.params.userId;
+        db.collection('rezolutions').doc(userId).get().then(querySnapshot => {
           this.myRezolutions = querySnapshot.data();
         });
       },

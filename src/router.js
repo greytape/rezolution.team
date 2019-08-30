@@ -6,7 +6,7 @@ import MyAccount from '@/views/myAccount'
 import CreateNewRezolution from '@/views/createNewRezolution'
 import CreateNewTeam from '@/views/createNewTeam'
 import MyTeams from '@/views/myTeams'
-
+import auth from '@/firebase/init'
 
 Vue.use(Router)
 
@@ -23,21 +23,34 @@ export default new Router({
       component: Register,
     },
     {
-      path: '/myAccount/:memberId',
+      path: '/myAccount/:userId',
       component: MyAccount,
+      meta: { requiresAuth: true },
     },
     {
-      path: '/myAccount/:memberId/createNewRezolution',
+      path: '/myAccount/:userId/createNewRezolution',
       component: CreateNewRezolution,
+      meta: { requiresAuth: true },
     },
     {
-      path: '/myAccount/:memberId/createNewTeam',
+      path: '/myAccount/:userId/createNewTeam',
       component: CreateNewTeam,
+      meta: { requiresAuth: true },
     },
     {
       path: ':memberId/myTeams',
       component: MyTeams,
-    }
-
-  ]
+      meta: { requiresAuth: true },
+    },
+  ],
 })
+
+// router.beforeEach((to, from, next) => {
+//   let currentUser = auth.currentUser;
+//   let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+//   if (requiresAuth && !currentUser) { next('to') }
+//   else { next() };
+// });
+
+// export { router }

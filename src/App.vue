@@ -1,12 +1,13 @@
 <template>
   <div>
-    <nav-bar :isLoggedIn="isLoggedIn" :memberId="memberId"></nav-bar>
+    <nav-bar :is-authenticated="isAuthenticated" :user="user"></nav-bar>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
   import Nav from '@/components/nav'
+  import { auth } from '@/firebase/init'
 
   export default {
     components: {
@@ -14,9 +15,21 @@
     },
     data: function() {
       return {
-        isLoggedIn: true,
-        memberId: 'IYeKwWnGs0KNGwVqi23x',
-      }
+        user: null,
+      };
+    }, 
+    computed: {
+      isAuthenticated: function() {
+        auth.onAuthStateChanged(user => {
+          if (user) {
+            this.user = user;
+          } else {
+            this.user = null;
+          }
+        }).bind(this);
+
+        return (this.user !== null);
+      },
     }
   }
 </script>

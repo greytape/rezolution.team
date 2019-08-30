@@ -34,7 +34,7 @@
 
 
 <script>
-  import db from '@/firebase/init'
+  import { db } from '@/firebase/init'
   import firebase from 'firebase'
 
   export default {
@@ -44,18 +44,19 @@
           name: '',
           description: '',
           updateFrequency: '',
+          id: '',
         },
       };
     },
     methods: {
       submitForm: function() {
-        let memberId = this.$route.params.memberId;
+        let userId = this.$route.params.userId;
         let rezolutionRef = this.randomId();
         this.newRezolution.id = rezolutionRef;
-        db.collection('rezolutions').doc(memberId).update({
+        db.collection('rezolutions').doc(userId).update({
           [rezolutionRef]: this.newRezolution,
         });
-        this.$router.push('/myAccount/' + memberId);
+        this.$router.push('/myAccount/' + userId);
       },
       randomId: function() {
         const alphanum = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9'];
