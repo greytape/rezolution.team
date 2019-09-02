@@ -5,6 +5,7 @@ import Register from '@/views/register'
 import MyAccount from '@/views/myAccount'
 import CreateNewRezolution from '@/views/createNewRezolution'
 import CreateNewTeam from '@/views/createNewTeam'
+import CreateUpdate from '@/views/createUpdate'
 import MyTeams from '@/views/myTeams'
 import auth from '@/firebase/init'
 
@@ -41,6 +42,10 @@ export default new Router({
       path: ':memberId/myTeams',
       component: MyTeams,
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/myAccount/:userId/:rezolutionId/createUpdate',
+      component: CreateUpdate,
     },
   ],
 })

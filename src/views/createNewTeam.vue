@@ -24,8 +24,7 @@
 
 
 <script>
-  import db from '@/firebase/init'
-  import firebase from 'firebase'
+  import { db } from '@/firebase/init'
 
   export default {
     data: function() {
@@ -33,22 +32,21 @@
         newTeam: {
           name: '',
           description: '',
+          rezolutions: [],
+          users: [],
         },
       };
     },
     methods: {
       submitForm: function() {
         let teamId;
-        let memberId = this.$route.params.memberId;
+        let userId = this.$route.params.userId;
+        this.newTeam.users = [userId];
         db.collection('teams').add(this.newTeam).then(ref => {
           teamId = ref.id;
-          ref.update({ id: teamId});
-        }).then( _ => {
-          db.collection('teams').doc(teamId).update({
-            members: firebase.firestore.FieldValue.arrayUnion(memberId),
-          });
-        })
-        this.$router.push('/myAccount/' + memberId);
+          ref.update({ id: teamId });
+        });
+        this.$router.push('/myAccount/' + userId);
       },
     },
   }

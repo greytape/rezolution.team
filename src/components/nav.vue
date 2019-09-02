@@ -99,14 +99,16 @@ export default {
         db.collection('rezolutions').doc(cred.user.uid).set({
           exists: true,
         });
-        console.log(cred.user.uid);
+      })
+      .then( _ => {
         return db.collection('users').doc(cred.user.uid).set({
           firstName: newUser.firstName,
           lastName: newUser.lastName,
           email: newUser.email,
           id: cred.user.uid,
         });
-      }).then( _ => {
+      })
+      .then( _ => {
         const modal = document.querySelector('#modal-register');
         const registerForm = document.querySelector('#register-form');
         M.Modal.getInstance(modal).close();

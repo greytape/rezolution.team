@@ -29,10 +29,10 @@
           <td>{{ rezolution.description }}</td>
           <td>{{ rezolution.updateFrequency }}</td>
           <td>Team</td>
-          <td><router-link><i class="material-icons">create</i></router-link></td>
+          <td><router-link :to="createUpdatePath(rezolution.id)"><i class="material-icons">create</i></router-link></td>
         </tr>
       </table>
-      <router-link :to="'/myAccount/' + myInfo.id + '/CreateNewRezolution'"><button class="btn waves-effect waves-light light-green darken-4">Create New Rezolution</button></router-link>
+      <router-link :to="createNewRezolutionPath"><button class="btn waves-effect waves-light light-green darken-4">Create New Rezolution</button></router-link>
     </div>
     <div class="col s12 card my-info">
       <h6>My teams</h6>
@@ -46,7 +46,7 @@
           <td>{{ team.description }} </td>
         </tr>
       </table>
-      <router-link :to="'/myAccount/' + myInfo.id + '/CreateNewTeam'"><button class="btn waves-effect waves-light light-green darken-4">Create New Team</button></router-link>
+      <router-link :to="createNewTeamPath"><button class="btn waves-effect waves-light light-green darken-4">Create New Team</button></router-link>
     </div>
   </div>
   
@@ -65,6 +65,19 @@
         myTeams: [],
         myRezolutions: [],
       };
+    },
+    computed: {
+      createNewRezolutionPath: function() {
+        return '/myAccount/' + this.myInfo.id + '/CreateNewRezolution';
+      },
+      createNewTeamPath: function() {
+        return '/myAccount/' + this.myInfo.id + '/CreateNewTeam';
+      },
+    },
+    methods: {
+      createUpdatePath: function(rezolutionId) {
+        return '/myAccount/' + this.myInfo.id + '/' + rezolutionId + '/createUpdate';
+      },
     },
     beforeCreate: function() {
       let userId = this.$route.params.userId;

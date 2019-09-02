@@ -35,7 +35,6 @@
 
 <script>
   import { db } from '@/firebase/init'
-  import firebase from 'firebase'
 
   export default {
     data: function() {
