@@ -37,7 +37,7 @@
     data: function() {
       return {
         newUpdate: {
-          id: '',
+          updateId: '',
           commentary: '',
           status: '',
         },
@@ -47,6 +47,7 @@
       submitForm: function() {
         let rezolutionId = this.$route.params.rezolutionId;
         let userId = this.$route.params.userId;
+        this.updateId = this.randomId();
         this.newUpdate.date = this.getDateCreated();
         db.collection('updates').doc(rezolutionId).update({
           updatesArray: firebase.firestore.FieldValue.arrayUnion(this.newUpdate),

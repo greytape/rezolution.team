@@ -15,10 +15,11 @@
       </table>
     </div>
     <div class="col s12 card my-info">
-      <h6>My resolutions</h6>
+      <h6>My rezolutions</h6>
       <table>
         <tr>
           <th>Name</th>
+          <th>Associated Team</th>
           <th>Description</th>
           <th>Update Frequency</th>
           <th>Latest Update</th>
@@ -29,11 +30,19 @@
         </tr>
         <tr v-for="rezolution in myRezolutions">
           <td>{{ rezolution.name }}</td>
+          <td>{{ rezolution.teamName }}
           <td>{{ rezolution.description }}</td>
           <td>{{ rezolution.updateFrequency }}</td>
-          <td v-if="rezolution.latestUpdate">{{ rezolution.latestUpdate.commentary }}</td>
-          <td v-if="rezolution.latestUpdate">{{ rezolution.latestUpdate.date }}</td>
-          <td v-if="rezolution.latestUpdate">{{ rezolution.latestUpdate.status }}</td>
+          <div v-if="rezolution.latestUpdate">
+            <td>{{ rezolution.latestUpdate.commentary }}</td>
+            <td>{{ rezolution.latestUpdate.date }}</td>
+            <td>{{ rezolution.latestUpdate.status }}</td>
+          </div>
+          <div v-else>
+            <td>No updates yet</td>
+            <td> </td>
+            <td> </td>
+          </div>
           <td><router-link :to="createUpdatePath(rezolution.id)"><i class="material-icons">create</i></router-link></td>
         </tr>
       </table>
@@ -45,10 +54,12 @@
         <tr>
           <td>Name</th>
           <td>Description</td>
+          <td>Team page</td>
         </tr>
         <tr v-for="team in myTeams">
           <td>{{ team.name }} </td>
           <td>{{ team.description }} </td>
+          <td><router-link :to="'/teams/' + team.id"><i class="material-icons">arrow_forward</i></router-link></td>
         </tr>
       </table>
       <router-link :to="createNewTeamPath"><button class="btn waves-effect waves-light light-green darken-4">Create New Team</button></router-link>
@@ -106,8 +117,10 @@
           for (let rezolution in this.myRezolutions) {
             db.collection('updates').doc(rezolution).get().then(
             (documentSnapshot) => {
-              let updates = documentSnapshot.data().updatesArray;
-              this.$set(this.myRezolutions[rezolution], 'latestUpdate', updates[updates.length - 1]);
+              if (documentSnapshot.data()) {
+                let updates = documentSnapshot.data().updatesArray;
+                this.$set(this.myRezolutions[rezolution], 'latestUpdate', updates[updates.length - 1]);
+              }
             });
           }
         });

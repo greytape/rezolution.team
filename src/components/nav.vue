@@ -94,18 +94,20 @@ export default {
   methods: {
     submitRegistration: function() {
       let newUser = this.newUser;
+      let credential;
       auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(cred => {
-        db.collection('rezolutions').doc(cred.user.uid).set({
+        credential = cred;
+        db.collection('rezolutions').doc(credential.user.uid).set({
           exists: true,
         });
       })
       .then( _ => {
-        return db.collection('users').doc(cred.user.uid).set({
+        db.collection('users').doc(credential.user.uid).set({
           firstName: newUser.firstName,
           lastName: newUser.lastName,
           email: newUser.email,
-          id: cred.user.uid,
+          id: credential.user.uid,
         });
       })
       .then( _ => {
@@ -130,7 +132,9 @@ export default {
     },
     logout: function() {
       auth.signOut().then( () => {
-        this.$router.push('/');
+        if (this.$router.history.current.path !== '/') {
+          this.$router.push('/');
+        }
       });
     },
   },
