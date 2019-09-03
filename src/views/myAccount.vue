@@ -21,14 +21,19 @@
           <th>Name</th>
           <th>Description</th>
           <th>Update Frequency</th>
-          <th>Team</th>
+          <th>Latest Update</th>
+          <th>Date of latest Update</th>
+          <th>Status</th>
           <th>Provide Update</th>
+          <th>See All Updates</th>
         </tr>
         <tr v-for="rezolution in myRezolutions">
           <td>{{ rezolution.name }}</td>
           <td>{{ rezolution.description }}</td>
           <td>{{ rezolution.updateFrequency }}</td>
-          <td>Team</td>
+          <td v-if="rezolution.latestUpdate">{{ rezolution.latestUpdate.commentary }}</td>
+          <td v-if="rezolution.latestUpdate">{{ rezolution.latestUpdate.date }}</td>
+          <td v-if="rezolution.latestUpdate">{{ rezolution.latestUpdate.status }}</td>
           <td><router-link :to="createUpdatePath(rezolution.id)"><i class="material-icons">create</i></router-link></td>
         </tr>
       </table>
@@ -59,9 +64,8 @@
   export default {
     data: function() {
       return {
-        myInfo: {
-          
-        },
+        userId: this.$route.params.userId,
+        myInfo: {},
         myTeams: [],
         myRezolutions: [],
       };
@@ -75,20 +79,16 @@
       },
     },
     methods: {
-      createUpdatePath: function(rezolutionId) {
+      createUpdatePath(rezolutionId) {
         return '/myAccount/' + this.myInfo.id + '/' + rezolutionId + '/createUpdate';
       },
-    },
-    beforeCreate: function() {
-      let userId = this.$route.params.userId;
-      db.collection('users').doc(userId).get().then(doc => {
-        this.myInfo = doc.data();
-      });
-    },
-    beforeMount: [
-      function() {
-        let userId = this.$route.params.userId;
-        let myTeams = db.collection('teams').where('users', 'array-contains', userId);
+      fetchUserData() {
+        db.collection('users').doc(this.userId).get().then(doc => {
+          this.myInfo = doc.data();
+        });
+      },
+      fetchTeamData() {
+        let myTeams = db.collection('teams').where('users', 'array-contains', this.userId);
         let myTeamsLocal = [];
         myTeams.get().then(querySnapshot => {
           querySnapshot.forEach(doc => {
@@ -97,13 +97,30 @@
         });
         this.myTeams = myTeamsLocal;
       },
-      function() {
-        let userId = this.$route.params.userId;
-        db.collection('rezolutions').doc(userId).get().then(querySnapshot => {
+      fetchRezolutionData() {
+        db.collection('rezolutions').doc(this.userId).get()
+        .then(querySnapshot => {
           this.myRezolutions = querySnapshot.data();
+        })
+        .then( _ => {
+          for (let rezolution in this.myRezolutions) {
+            db.collection('updates').doc(rezolution).get().then(
+            (documentSnapshot) => {
+              let updates = documentSnapshot.data().updatesArray;
+              this.$set(this.myRezolutions[rezolution], 'latestUpdate', updates[updates.length - 1]);
+            });
+          }
         });
       },
-    ],
+      getLatestUpdate: function(rezolutionId) {
+        return this.myRezolutions[rezolutionId].latestUpdate;
+      },
+    },
+    created: function() {
+      this.fetchUserData();
+      this.fetchTeamData();
+      this.fetchRezolutionData();
+    },
   } 
   
 </script>

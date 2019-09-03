@@ -55,6 +55,9 @@
         db.collection('rezolutions').doc(userId).update({
           [rezolutionRef]: this.newRezolution,
         });
+        db.collection('updates').doc(rezolutionRef).set({
+          updatesArray: [],
+        });
         this.$router.push('/myAccount/' + userId);
       },
       randomId: function() {

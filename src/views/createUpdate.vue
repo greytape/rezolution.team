@@ -31,6 +31,7 @@
 <script>
   
   import { db } from '@/firebase/init'
+  import firebase from 'firebase/app'
 
   export default {
     data: function() {
@@ -47,10 +48,9 @@
         let rezolutionId = this.$route.params.rezolutionId;
         let userId = this.$route.params.userId;
         this.newUpdate.date = this.getDateCreated();
-        this.newUpdate.id = this.randomId();
-        db.collection('updates').doc(rezolutionId).set({
-          [this.newUpdate.id]: this.newUpdate,
-        }, { merge: true });
+        db.collection('updates').doc(rezolutionId).update({
+          updatesArray: firebase.firestore.FieldValue.arrayUnion(this.newUpdate),
+        });
         this.$router.push('/myAccount/' + userId);
       },
       getDateCreated: function() {

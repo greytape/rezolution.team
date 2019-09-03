@@ -25,11 +25,11 @@
               <label for="register-last-name">Last name</label>
             </div>
             <div class="input-field">
-              <input v-model="newUser.email" type="email" id="register-email" required />
+              <input v-model="newUser.email" type="email" id="register-email" autocomplete="email" required />
               <label for="register-email">Email address</label>
             </div>
             <div class="input-field">
-              <input v-model="newUser.password" type="password" id="register-password" required />
+              <input v-model="newUser.password" autocomplete="new-password" type="password" id="register-password" required />
               <label for="register-password">Choose password</label>
             </div>
             <button class="btn yellow darken-2 z-depth-0">Submit</button>
@@ -41,11 +41,11 @@
           <h4>Login</h4><br />
           <form @submit.prevent="login" id="login-form">
             <div class="input-field">
-              <input v-model="existingUser.email" type="email" id="login-email" required />
+              <input v-model="existingUser.email" type="email" autocomplete="email" id="login-email" required />
               <label for="login-email">Email address</label>
             </div>
             <div class="input-field">
-              <input v-model="existingUser.password" type="password" id="login-password" required />
+              <input v-model="existingUser.password" autocomplete="current-password" type="password" id="login-password" required />
               <label for="login-password">Your password</label>
             </div>
             <button class="btn yellow darken-2 z-depth-0">Login</button>
