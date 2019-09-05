@@ -14,9 +14,9 @@
         </tr>
       </table>
     </div>
-    <div class="col s12 card my-info">
+    <div class="col s12 card my-tables">
       <h6>My rezolutions</h6>
-      <table>
+      <table class="responsive-table">
         <tr>
           <th>Name</th>
           <th>Associated Team</th>
@@ -33,11 +33,11 @@
           <td>{{ rezolution.teamName }}
           <td>{{ rezolution.description }}</td>
           <td>{{ rezolution.updateFrequency }}</td>
-          <div v-if="rezolution.latestUpdate">
+          <template v-if="rezolution.latestUpdate">
             <td>{{ rezolution.latestUpdate.commentary }}</td>
             <td>{{ rezolution.latestUpdate.date }}</td>
             <td>{{ rezolution.latestUpdate.status }}</td>
-          </div>
+          </template>
           <div v-else>
             <td>No updates yet</td>
             <td> </td>
@@ -114,19 +114,19 @@
           this.myRezolutions = querySnapshot.data();
         })
         .then( _ => {
-          for (let rezolution in this.myRezolutions) {
-            db.collection('updates').doc(rezolution).get().then(
-            (documentSnapshot) => {
-              if (documentSnapshot.data()) {
-                let updates = documentSnapshot.data().updatesArray;
-                this.$set(this.myRezolutions[rezolution], 'latestUpdate', updates[updates.length - 1]);
-              }
-            });
-          }
+          this.addLatestUpdates();
         });
       },
-      getLatestUpdate: function(rezolutionId) {
-        return this.myRezolutions[rezolutionId].latestUpdate;
+      addLatestUpdates: function() {
+        for (let rezolution in this.myRezolutions) {
+          db.collection('updates').doc(rezolution).get().then(
+          (documentSnapshot) => {
+            if (documentSnapshot.data()) {
+              let updates = documentSnapshot.data().updatesArray;
+              this.$set(this.myRezolutions[rezolution], 'latestUpdate', updates[updates.length - 1]);
+            }
+          });
+        }
       },
     },
     created: function() {
@@ -140,6 +140,11 @@
 
 
 <style>
+  .my-tables {
+    padding: 20px 60px;
+    margin: 10% auto;
+  }
+
   .my-info {
     padding: 20px 60px;
     margin: 10% auto;
