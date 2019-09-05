@@ -108,5 +108,7 @@ Tasks to do
 - Incorrect username or password on login
 - Weak password on login
 - Email address already taken on registration
-- Option to pick team when new rezolution created
+- establish admin of teams
+- allow admin to invite people to join teams
+- edit rezolution (eg to add to team - more than one?)
 

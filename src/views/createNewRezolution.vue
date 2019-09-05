@@ -101,6 +101,9 @@
     computed: {
       getChosenTeamName: function() {
         let chosenTeam = '';
+        if (this.newRezolution.teamId === 'none') {
+          return 'none';
+        }
         if (this.newRezolution.teamId) {
           chosenTeam = this.myTeams.filter(team => {
             return team.id === this.newRezolution.teamId;
