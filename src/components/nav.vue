@@ -101,7 +101,7 @@ export default {
           firstName: newUser.firstName,
           lastName: newUser.lastName,
           email: newUser.email,
-          id: credential.user.uid,
+          id: cred.user.uid,
         });
       })
       .then( _ => {
