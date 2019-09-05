@@ -32,6 +32,7 @@
         newTeam: {
           name: '',
           description: '',
+          rezolutions: [],
           users: [],
         },
       };

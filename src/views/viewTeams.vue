@@ -5,8 +5,8 @@
       <h6>{{ teamInfo.description }}</h6>
       <table>
         <tr>
-          <td>Rezolution</th>
-          <td>Owner</td>
+          <th>Rezolution</th>
+          <th>Owner</th>
           <th>Update Frequency</th>
           <th>Latest Update</th>
           <th>Date of latest Update</th>
@@ -14,7 +14,7 @@
         </tr>
         <tr v-for="rezolution in teamRezolutions">
           <td>{{ rezolution.name }} </td>
-          <td>{{ rezolution.owner }} </td>
+          <td>{{ rezolution.userName }} </td>
           <td>{{ rezolution.updateFrequency }} </td>
           <template v-if="rezolution.latestUpdate">
             <td>{{ rezolution.latestUpdate.commentary }}</td>
@@ -32,45 +32,37 @@
   export default { 
     data: function() {
       return {
-        teamRezolutions: [],
+        teamRezolutions: {},
         teamId: this.$route.params.teamId,
-        teamInfo: [],
+        teamInfo: {},
       };
     },
     methods: {
       getTeamRezolutions: function() {
-        db.collection('rezolutions').get().then(querySnapshot => {
-          querySnapshot.docs.forEach(doc => {
-            let rezolutionId = Object.keys(doc.data())[0];
-            let data = doc.data()[rezolutionId];
-            if (data.teamId === this.teamId) {
-              this.teamRezolutions.push(data);
+        this.teamInfo.rezolutions.forEach(rezolution => {
+          db.collection('rezolutions').doc(rezolution).get().then(documentSnapshot => {
+              this.teamRezolutions[rezolution] = documentSnapshot.data();
+          })
+          .then( _ => {
+            return db.collection('updates').where('rezolutionId','==', rezolution).orderBy('timestamp').get();
+          })
+          .then(querySnapshot => {
+            if (querySnapshot.docs.length > 0) {
+              this.teamRezolutions[rezolution].latestUpdate = querySnapshot.docs[querySnapshot.docs.length - 1].data();
             }
-          }, this);
-        }).then(_ => {
-          this.addLatestUpdates();
-        });
-      },
-      addLatestUpdates: function() {
-        for (let rezolution in this.teamRezolutions) {
-          db.collection('updates').doc(this.teamRezolutions[rezolution].id).get().then(
-          (documentSnapshot) => {
-            if (documentSnapshot.data()) {
-              let updates = documentSnapshot.data().updatesArray;
-              this.$set(this.teamRezolutions[rezolution], 'latestUpdate', updates[updates.length - 1]);
-            }
+            this.$forceUpdate();
           });
-        }
+        }, this);
       },
       getTeamInfo: function() {
-        db.collection('teams').doc(this.teamId).get().then(documentSnapshot => {
-            this.teamInfo = documentSnapshot.data();
-        });
+        return db.collection('teams').doc(this.teamId).get();
       },
     },
     created: function() {
-      this.getTeamRezolutions();
-      this.getTeamInfo();
+      this.getTeamInfo().then(documentSnapshot => {
+        this.teamInfo = documentSnapshot.data();
+        this.getTeamRezolutions();
+      });
     }
   }
 </script>

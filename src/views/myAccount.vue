@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h5>My Account</h5>
-    <div class="col s12 card my-info">
+    <div class="my-tables">
       <h6>My info</h6>
       <table>
         <tr>
@@ -14,9 +14,9 @@
         </tr>
       </table>
     </div>
-    <div class="col s12 card my-tables">
-      <h6>My rezolutions</h6>
-      <table class="responsive-table">
+    <div class="my-tables">
+      <h5>My Rezolutions</h5>
+      <table>
         <tr>
           <th>Name</th>
           <th>Associated Team</th>
@@ -25,8 +25,8 @@
           <th>Latest Update</th>
           <th>Date of latest Update</th>
           <th>Status</th>
-          <th>Provide Update</th>
           <th>See All Updates</th>
+          <th>Provide Update</th>
         </tr>
         <tr v-for="rezolution in myRezolutions">
           <td>{{ rezolution.name }}</td>
@@ -37,24 +37,26 @@
             <td>{{ rezolution.latestUpdate.commentary }}</td>
             <td>{{ rezolution.latestUpdate.date }}</td>
             <td>{{ rezolution.latestUpdate.status }}</td>
+            <td><router-link :to="'/' + rezolution.id + '/viewRezolution'"><i class="material-icons">list</i></router-link></td>
           </template>
-          <div v-else>
-            <td>No updates yet</td>
+          <template v-else>
             <td> </td>
             <td> </td>
-          </div>
+            <td> </td>
+            <td> </td>
+          </template>
           <td><router-link :to="createUpdatePath(rezolution.id)"><i class="material-icons">create</i></router-link></td>
         </tr>
       </table>
       <router-link :to="createNewRezolutionPath"><button class="btn waves-effect waves-light light-green darken-4">Create New Rezolution</button></router-link>
     </div>
-    <div class="col s12 card my-info">
-      <h6>My teams</h6>
+    <div class="my-tables">
+      <h5>My Teams</h5>
       <table>
         <tr>
-          <td>Name</th>
-          <td>Description</td>
-          <td>Team page</td>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Team page</th>
         </tr>
         <tr v-for="team in myTeams">
           <td>{{ team.name }} </td>
@@ -78,7 +80,7 @@
         userId: this.$route.params.userId,
         myInfo: {},
         myTeams: [],
-        myRezolutions: [],
+        myRezolutions: {},
       };
     },
     computed: {
@@ -109,9 +111,12 @@
         this.myTeams = myTeamsLocal;
       },
       fetchRezolutionData() {
-        db.collection('rezolutions').doc(this.userId).get()
+        db.collection('rezolutions').where('userId', '==', this.userId).get()
         .then(querySnapshot => {
-          this.myRezolutions = querySnapshot.data();
+          querySnapshot.forEach(doc => {
+            let rezolution = doc.data();
+            this.myRezolutions[rezolution.id] = rezolution;
+          }, this);
         })
         .then( _ => {
           this.addLatestUpdates();
@@ -119,12 +124,13 @@
       },
       addLatestUpdates: function() {
         for (let rezolution in this.myRezolutions) {
-          db.collection('updates').doc(rezolution).get().then(
-          (documentSnapshot) => {
-            if (documentSnapshot.data()) {
-              let updates = documentSnapshot.data().updatesArray;
-              this.$set(this.myRezolutions[rezolution], 'latestUpdate', updates[updates.length - 1]);
-            }
+          let rezolutionId = this.myRezolutions[rezolution].id;
+
+          db.collection('updates').where('rezolutionId','==', rezolutionId).orderBy('timestamp').get().then(querySnapshot => {
+              if (querySnapshot.docs.length > 0) {
+                this.myRezolutions[rezolutionId].latestUpdate = querySnapshot.docs[querySnapshot.docs.length - 1].data();
+              }
+              this.$forceUpdate();
           });
         }
       },
@@ -141,13 +147,15 @@
 
 <style>
   .my-tables {
-    padding: 20px 60px;
+    padding: 20px 0;
     margin: 10% auto;
   }
 
   .my-info {
-    padding: 20px 60px;
-    margin: 10% auto;
+    padding: 20px 0;
+    margin: 20px auto;
     width: 70%;
   }
+
+
 </style>

@@ -6,6 +6,7 @@ import CreateNewRezolution from '@/views/createNewRezolution'
 import CreateNewTeam from '@/views/createNewTeam'
 import CreateUpdate from '@/views/createUpdate'
 import ViewTeams from '@/views/viewTeams'
+import ViewRezolution from '@/views/viewRezolution'
 import auth from '@/firebase/init'
 
 Vue.use(Router)
@@ -36,6 +37,10 @@ export default new Router({
     {
       path: '/myAccount/:userId/:rezolutionId/createUpdate',
       component: CreateUpdate,
+    },
+    {
+      path: '/:rezolutionId/ViewRezolution',
+      component: ViewRezolution,
     },
     {
       path: '/teams/:teamId',

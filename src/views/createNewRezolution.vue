@@ -44,6 +44,7 @@
 
 <script>
   import { db } from '@/firebase/init'
+  import firebase from 'firebase/app'
 
   export default {
     data: function() {
@@ -53,6 +54,8 @@
           description: '',
           updateFrequency: '',
           id: '',
+          userId: '',
+          userName: '',
           teamId: '',
           teamName: '',
         },
@@ -63,15 +66,14 @@
     methods: {
       submitForm: function() {
         let userId = this.$route.params.userId;
-        let rezolutionRef = this.randomId();
         this.newRezolution.teamName = this.getChosenTeamName;
-        this.newRezolution.id = rezolutionRef;
-        db.collection('rezolutions').doc(userId).update({
-          [rezolutionRef]: this.newRezolution,
+        this.newRezolution.id = this.randomId();
+        this.newRezolution.userId = this.userId;
+        db.collection('rezolutions').doc(this.newRezolution.id).set(this.newRezolution);
+        db.collection('teams').doc(this.newRezolution.teamId).update({
+          rezolutions: firebase.firestore.FieldValue.arrayUnion(this.newRezolution.id),
         });
-        db.collection('updates').doc(rezolutionRef).set({
-          'updatesArray': [],
-        }).catch(err => console.log(err.message));
+        this.$forceUpdate();
         this.$router.push('/myAccount/' + userId);
       },
       fetchTeamData() {
@@ -92,9 +94,10 @@
         }
         return result;
       },
-      getOwner: function() {
+      getUser: function() {
+        this.newRezolution.userId = this.userId;
         db.collection('users').doc(this.userId).get().then(doc => {
-          this.newRezolution.owner = doc.data().firstName + ' ' + doc.data().lastName;
+          this.newRezolution.userName = doc.data().firstName + ' ' + doc.data().lastName;
         });
       },
     },
@@ -117,7 +120,7 @@
       this.fetchTeamData();
     },
     mounted: function() {
-      this.getOwner();
+      this.getUser();
       var elems = document.querySelectorAll('select');
       var instances = M.FormSelect.init(elems, {});
     },

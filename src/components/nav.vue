@@ -95,16 +95,9 @@ export default {
   methods: {
     submitRegistration: function() {
       let newUser = this.newUser;
-      let credential;
       auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
-      .then(cred => {
-        credential = cred;
-        db.collection('rezolutions').doc(credential.user.uid).set({
-          exists: true,
-        });
-      })
-      .then( _ => {
-        db.collection('users').doc(credential.user.uid).set({
+      .then( cred => {
+        db.collection('users').doc(cred.user.uid).set({
           firstName: newUser.firstName,
           lastName: newUser.lastName,
           email: newUser.email,

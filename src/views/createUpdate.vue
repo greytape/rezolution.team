@@ -37,9 +37,10 @@
     data: function() {
       return {
         newUpdate: {
-          updateId: '',
+          id: '',
           commentary: '',
           status: '',
+          rezolutionId: '',
         },
       };
     },
@@ -47,10 +48,15 @@
       submitForm: function() {
         let rezolutionId = this.$route.params.rezolutionId;
         let userId = this.$route.params.userId;
-        this.updateId = this.randomId();
+        this.newUpdate.id = this.randomId();
         this.newUpdate.date = this.getDateCreated();
-        db.collection('updates').doc(rezolutionId).update({
-          updatesArray: firebase.firestore.FieldValue.arrayUnion(this.newUpdate),
+        this.newUpdate.rezolutionId = rezolutionId;
+        db.collection('updates').doc(this.newUpdate.id).set(
+          this.newUpdate
+        , { merge: true }).then( _ => {
+          db.collection('updates').doc(this.newUpdate.id).update({
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          }).catch( err => console.log(err.message));
         });
         this.$router.push('/myAccount/' + userId);
       },
