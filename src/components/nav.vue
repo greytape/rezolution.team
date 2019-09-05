@@ -4,10 +4,9 @@
       <div class="nav-wrapper container">
         <a href="#" data-target="slide-out" class="sidenav-trigger hide-on-large-only"><i class="material-icons">menu</i></a>
         <router-link to="/" class="brand-logo permanent">rezolution.team</router-link>
-        <ul id="nav-mobile" class="hide-on-med-and-down right">
+        <ul class="hide-on-med-and-down right">
           <li v-if="!isAuthenticated"><a href="#" class="modal-trigger" data-target="modal-register">Register</a></li>
           <li v-if="!isAuthenticated"><a href="#" class="modal-trigger" data-target="modal-login">Login</a></li>
-          <li v-if="isAuthenticated"><router-link to="#">My Teams</router-link></li>
           <li v-if="isAuthenticated"><router-link :to="'/myAccount/' + user.uid">My Account</router-link></li>
           <li v-if="isAuthenticated"><a href="#" @click.prevent="logout">Logout</a></li>
         </ul>
@@ -53,13 +52,15 @@
         </div>
       </div>  
     </nav>
+    
     <ul id="slide-out" class="sidenav">
-      <ul v-if="!isAuthenticated" id="nav-mobile" class="hide-on-large-only">
-        <li><router-link to="/register">Register</router-link></li>
-        <li><router-link to="#">Login</router-link></li>
+      <ul v-if="!isAuthenticated" class="hide-on-large-only">
+        <li v-if="!isAuthenticated"><a href="#" class="modal-trigger" data-target="modal-register">Register</a></li>
+        <li v-if="!isAuthenticated"><a href="#" class="modal-trigger" data-target="modal-login">Login</a></li>
+        <li v-if="isAuthenticated"><router-link :to="'/myAccount/' + user.uid">My Account</router-link></li>
+        <li v-if="isAuthenticated"><a href="#" @click.prevent="logout">Logout</a></li>
       </ul>
-      <ul v-if="isAuthenticated" id="nav-mobile" class="hide-on-large-only">
-        <li><router-link to="#">My Teams</router-link></li>
+      <ul v-if="isAuthenticated" class="hide-on-large-only">
         <li><router-link :to="'/myAccount/' + user.uid">My Account</router-link></li>
         <li><a href="#" @click.prevent="logout">Logout</a></li>
       </ul>

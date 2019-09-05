@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/home'
-import Register from '@/views/register'
 import MyAccount from '@/views/myAccount'
 import CreateNewRezolution from '@/views/createNewRezolution'
 import CreateNewTeam from '@/views/createNewTeam'
@@ -18,10 +17,6 @@ export default new Router({
     {
       path: '/',
       component: Home
-    },
-    {
-      path: '/register',
-      component: Register,
     },
     {
       path: '/myAccount/:userId',
