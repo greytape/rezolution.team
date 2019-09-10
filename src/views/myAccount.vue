@@ -55,11 +55,13 @@
       <table>
         <tr>
           <th>Name</th>
+          <th>Admin</th>
           <th>Description</th>
           <th>Team page</th>
         </tr>
         <tr v-for="team in myTeams">
           <td>{{ team.name }} </td>
+          <td>{{ team.adminName }}</td>
           <td>{{ team.description }} </td>
           <td><router-link :to="'/teams/' + team.id"><i class="material-icons">arrow_forward</i></router-link></td>
         </tr>
@@ -79,7 +81,7 @@
       return {
         userId: this.$route.params.userId,
         myInfo: {},
-        myTeams: [],
+        myTeams: {},
         myRezolutions: {},
       };
     },
@@ -102,13 +104,13 @@
       },
       fetchTeamData() {
         let myTeams = db.collection('teams').where('users', 'array-contains', this.userId);
-        let myTeamsLocal = [];
         myTeams.get().then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            myTeamsLocal.push(doc.data());
-          });
+            this.myTeams[doc.data().id] = doc.data();
+          }, this);
+        }).then(_ => {
+          this.getAdminNamesFromUserIds();
         });
-        this.myTeams = myTeamsLocal;
       },
       fetchRezolutionData() {
         db.collection('rezolutions').where('userId', '==', this.userId).get()
@@ -121,6 +123,13 @@
         .then( _ => {
           this.addLatestUpdates();
         });
+      },
+      getAdminNamesFromUserIds: function() {
+        for (let team in this.myTeams) {
+          db.collection('users').doc(this.myTeams[team].adminUserId).get().then(docSnapShot => {
+            this.myTeams[team].adminName = docSnapShot.data().firstName + ' ' + docSnapShot.data().lastName;
+          });  
+        }
       },
       addLatestUpdates: function() {
         for (let rezolution in this.myRezolutions) {

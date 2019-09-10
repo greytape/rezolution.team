@@ -42,6 +42,7 @@
         let teamId;
         let userId = this.$route.params.userId;
         this.newTeam.users = [userId];
+        this.newTeam.adminUserId = userId;
         db.collection('teams').add(this.newTeam).then(ref => {
           teamId = ref.id;
           ref.update({ id: teamId });

@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav-bar :is-authenticated="isAuthenticated" :user="user"></nav-bar>
-    <router-view></router-view>
+    <router-view :user="user"></router-view>
   </div>
 </template>
 
@@ -23,8 +23,12 @@
         auth.onAuthStateChanged(user => {
           if (user) {
             this.user = user;
+            this.$router.push('/myAccount/' + this.user.uid);
           } else {
             this.user = null;
+            if (this.$router.history.current.path !== '/') {
+              this.$router.push('/');
+            }
           }
         }).bind(this);
 

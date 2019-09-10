@@ -11,7 +11,7 @@
         </tr>
         <tr>
           <td>{{ rezolutionInfo.name }} </td>
-          <td>{{ rezolutionInfo.owner }} </td>
+          <td>{{ rezolutionInfo.userName }} </td>
           <td>{{ rezolutionInfo.teamName }} </td>
           <td>{{ rezolutionInfo.updateFrequency }} </td>
         </tr>

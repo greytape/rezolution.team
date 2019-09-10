@@ -43,7 +43,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">list_alt</i></div>
             <div class="card-content center-align">
-              <p class="flow-text">Make commitments</p>
+              <p class="flow-text permanent light-green-text text-darken-4">Make commitments</p>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">share</i></div>
             <div class="card-content">
-              <p class="flow-text">Invite your friends</p>
+              <p class="flow-text permanent light-green-text text-darken-4">Invite your friends</p>
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">update</i></div>
             <div class="card-content">
-              <p class="flow-text">Post regular updates</p>
+              <p class="flow-text permanent light-green-text text-darken-4">Post regular updates</p>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">forum</i></div>
             <div class="card-content">
-              <p class="flow-text">Discuss your progress</p>
+              <p class="flow-text permanent light-green-text text-darken-4">Discuss your progress</p>
             </div>
           </div>
         </div>
