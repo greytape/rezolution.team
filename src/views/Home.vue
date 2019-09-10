@@ -8,7 +8,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">group</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4"">Work with friends</p>
+              <p class="flow-text permanent light-green-text text-darken-4">Work with friends</p>
             </div>
           </div>
         </div>
@@ -16,7 +16,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">timeline</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4"">Track progress</p>
+              <p class="flow-text permanent light-green-text text-darken-4">Track progress</p>
             </div>
           </div>
         </div>
@@ -24,7 +24,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">done_outline</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4"">Achieve your goals</p>
+              <p class="flow-text permanent light-green-text text-darken-4">Achieve your goals</p>
             </div>
           </div>
         </div>

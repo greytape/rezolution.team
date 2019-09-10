@@ -25,7 +25,7 @@
           <th>Date</th>
           <th>Status</th>
         </tr>
-        <tr v-for="update in rezolutionUpdates">
+        <tr v-for="update in rezolutionUpdates" :key="update.id">
           <td>{{ update.commentary }} </td>
           <td>{{ update.date }} </td>
           <td>{{ update.status }} </td>

@@ -28,7 +28,7 @@
           <th>See All Updates</th>
           <th>Provide Update</th>
         </tr>
-        <tr v-for="rezolution in myRezolutions">
+        <tr v-for="rezolution in myRezolutions" :key="rezolution.id">
           <td>{{ rezolution.name }}</td>
           <td>{{ rezolution.teamName }}
           <td>{{ rezolution.description }}</td>
@@ -59,7 +59,7 @@
           <th>Description</th>
           <th>Team page</th>
         </tr>
-        <tr v-for="team in myTeams">
+        <tr v-for="team in myTeams" :key="team.id">
           <td>{{ team.name }} </td>
           <td>{{ team.adminName }}</td>
           <td>{{ team.description }} </td>
