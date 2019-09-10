@@ -28,7 +28,7 @@
             <label for="select-team">Select Team</label>
             <select v-model="newRezolution.teamId" id="select-team">
               <option value="none">None</option>
-              <option v-for="team in myTeams" :value="team.id">{{ team.name }}</option>
+              <option v-for="team in myTeams" :value="team.id" :key="team.id">{{ team.name }}</option>
             </select>
           </div>
         </div>

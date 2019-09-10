@@ -120,6 +120,7 @@ export default {
         const registerForm = document.querySelector('#login-form');
         M.Modal.getInstance(modal).close();
         registerForm.reset();
+        this.$router.push('/myAccount/' + this.user.uid);
       }).catch(err => {
         console.log(err.code);
       });

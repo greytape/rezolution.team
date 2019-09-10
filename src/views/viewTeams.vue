@@ -41,7 +41,7 @@
     <div class="col s12 card my-tables">
       <h5>Current team users</h5>
       <ul v-if="teamInfo.users" class="collection">
-        <li v-for="userEmail in userEmails" class="collection-item">{{ userEmail }}</li>
+        <li v-for="(userEmail, index) in userEmails" class="collection-item" :key="index">{{ userEmail }}</li>
       </ul>
     </div>
   </div>
