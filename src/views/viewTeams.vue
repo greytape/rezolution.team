@@ -16,7 +16,7 @@
           <th>Date of latest Update</th>
           <th>Status</th>
         </tr>
-        <tr v-for="rezolution in teamRezolutions">
+        <tr v-for="rezolution in teamRezolutions" :key="rezolution.id">
           <td>{{ rezolution.name }} </td>
           <td>{{ rezolution.userName }} </td>
           <td>{{ rezolution.updateFrequency }} </td>
@@ -28,19 +28,20 @@
         </tr>
       </table>
     </div>
-    <div class="col s12 card my-tables">
-      <h5>Add new users to group</h5>
-      <form action="#">
+    <div v-if="userIsAdmin" class="col s12 card my-tables">
+      <h5>Add new users to team</h5>
+      <form action="#" @submit.prevent="addNewUser">
         <label for="newUser">New user's email</label>
-        <input id="newUser" @keydown.tab.prevent="addNewUser"><button class="btn-floating light-green darken-4" @click.prevent="addNewUser"><i class="material-icons">add</i></button>
-        <button class="btn light-green darken-4" @click.prevent="submitNewUsers">Submit<i class="material-icons right">send</i></button>
+        <input type="text" id="newUser">
+        <button class="btn light-green darken-4">Submit<i class="material-icons right">send</i></button>
         <p class="red-text">{{ negativeFeedback }}</p>
         <p class="green-text">{{ positiveFeedback }}</p>
       </form>
-      <ul class="collection">
-        <li class="collection-item" v-for="newUser in newUserEmails">
-          {{ newUser }}
-        </li>
+    </div>
+    <div class="col s12 card my-tables">
+      <h5>Current team users</h5>
+      <ul v-if="teamInfo.users" class="collection">
+        <li v-for="userEmail in userEmails" class="collection-item">{{ userEmail }}</li>
       </ul>
     </div>
   </div>
@@ -56,86 +57,111 @@
     },
     data: function() {
       return {
+        userEmails: [],
         teamRezolutions: {},
         teamId: this.$route.params.teamId,
         teamInfo: {},
-        newUserEmails: [],
-        newUserIds: [],
         negativeFeedback: '',
         positiveFeedback: '',
       };
     },
     methods: {
       addNewUser: function() {
-        if (/\S+@\S+\.\S+/.test(event.target.value)) {
-          this.retrieveAndStoreUserId(event.target.value);
-          this.negativeFeedback = '';
+        if (!this.checkValidEmail(event.target['newUser'].value)) {
+          this.negativefeedback = 'Please add the email address of the user that you would like to add.';
           this.positiveFeedback = '';
-          event.target.value = ''
         } else {
-          this.feedback = 'Please add the email address of the user that you would like to add.';
-          this.positiveFeedback = '';
-          event.target.value = '';
+          this.checkUserId(event.target['newUser'].value).then(querySnapshot => {
+            if (querySnapshot.docs.length > 0) {
+              let newUserId = querySnapshot.docs[0].id;
+              this.submitUserId(newUserId);
+            } else {
+              this.negativeFeedback = 'User not found in system.';
+              this.positiveFeedback = '';
+            }
+          });
         }
+        event.target.value = ''
       },
       getTeamRezolutions: function() {
+        let promises = [];
         this.teamInfo.rezolutions.forEach(rezolution => {
-          db.collection('rezolutions').doc(rezolution).get().then(documentSnapshot => {
-              this.teamRezolutions[rezolution] = documentSnapshot.data();
-          })
-          .then( _ => {
-            return db.collection('updates').where('rezolutionId','==', rezolution).orderBy('timestamp').get();
-          })
-          .then(querySnapshot => {
+          promises.push(db.collection('rezolutions').doc(rezolution).get());
+        });
+        Promise.all(promises).then(snapshotArray => {
+          snapshotArray.forEach(snapshot => {
+            this.teamRezolutions[snapshot.id] = snapshot.data();
+          }, this);
+          this.getLatestUpdates();
+          this.$forceUpdate();
+        });
+      },
+      getLatestUpdates: function() {
+        let promises = [];
+        for (let rezolution in this.teamRezolutions) {
+          promises.push(db.collection('updates').where('rezolutionId','==', rezolution).orderBy('timestamp').get());
+        }
+        Promise.all(promises).then(promiseArray => {
+          promiseArray.forEach(querySnapshot => {
             if (querySnapshot.docs.length > 0) {
-              this.teamRezolutions[rezolution].latestUpdate = querySnapshot.docs[querySnapshot.docs.length - 1].data();
+              let latestUpdate = querySnapshot.docs[querySnapshot.docs.length - 1].data();
+              this.teamRezolutions[latestUpdate.rezolutionId].latestUpdate = latestUpdate;
             }
-            this.$forceUpdate();
           });
-        }, this);
+          this.$forceUpdate();
+        });
       },
       getTeamInfo: function() {
-        return db.collection('teams').doc(this.teamId).get();
+        return db.collection('teams').doc(this.teamId);
       },
-      retrieveAndStoreUserId: function(email) {
-        db.collection('users').where('email', '==', email).get().then(querySnapshot => {
-          if (querySnapshot.docs.length > 0) {
-            this.newUserIds.push(querySnapshot.docs[0].id);
-            this.newUserEmails.push(email);
-          } else {
-            this.negativeFeedback = 'User not found in system.'
-          }
+      checkUserId: function(email) {
+        return db.collection('users').where('email', '==', email).get();
+      },
+      checkValidEmail: function(allegedEmail) {
+        return /\S+@\S+\.\S+/.test(allegedEmail);
+      },
+      submitUserId: function(newUserId) {
+        db.collection('teams').doc(this.teamId).update({
+          users: firebase.firestore.FieldValue.arrayUnion(newUserId),
+        }).then(_ => {
+          this.positiveFeedback = 'User successfully submitted';
+          this.negativeFeedback = '';
+        }).catch(err => {
+          console.log(err);
         });
       },
-      submitNewUsers: function() {
+      getUserEmails: function() {
         let promises = [];
-        this.newUserIds.forEach(userId => {
-          promises.push(
-            db.collection('teams').doc(this.teamId).update({
-              users: firebase.firestore.FieldValue.arrayUnion(userId),
-            })
-          );
-        }, this);
-        Promise.all(promises).then(_ => {
-          this.positiveFeedback = 'Users submitted';
-          this.newUserIds = '';
-          this.newUserEmails = '';
+        let userEmails = [];
+        for (let userId in this.teamInfo.users) {
+          promises.push(db.collection('users').where('id', '==', this.teamInfo.users[userId]).get());
+        }
+        Promise.all(promises).then(querySnapshotArray => {
+          querySnapshotArray.forEach(querySnapshot => {
+            userEmails.push(querySnapshot.docs[0].get('email'));
+          });
         });
-      }
+        return userEmails;
+      },
     },
     computed: {
       userIsAdmin: function() {
         if (this.user) {
           return this.user.uid === this.teamInfo.adminUserId;
         }
+      },
+    },
+    watch: {
+      teamInfo: function() {
+        this.userEmails = this.getUserEmails();
       }
     },
     created: function() {
-      this.getTeamInfo().then(documentSnapshot => {
+      this.getTeamInfo().onSnapshot(documentSnapshot => {
         this.teamInfo = documentSnapshot.data();
         this.getTeamRezolutions();
       });
-    }
+    },
   }
 </script>
 
@@ -143,9 +169,5 @@
   .my-tables {
     padding: 20px 60px;
     margin: 10% auto;
-  }
-  
-  input#newUser {
-    width: 80%;
   }
 </style>

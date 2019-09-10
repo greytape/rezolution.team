@@ -11,7 +11,7 @@
 
   export default {
     components: {
-      'nav-bar': Nav, 
+      'nav-bar': Nav,
     },
     data: function() {
       return {
