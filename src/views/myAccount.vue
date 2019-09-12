@@ -28,7 +28,7 @@
           <th>See All Updates</th>
           <th>Provide Update</th>
         </tr>
-        <tr v-for="rezolution in myRezolutions" :key="rezolution.id">
+        <tr v-for="rezolution in myRezolutions" :key="rezolution.id" :class="rezolutionFormat(rezolution)">
           <td>{{ rezolution.name }}</td>
           <td>{{ rezolution.teamName }}
           <td>{{ rezolution.description }}</td>
@@ -141,6 +141,13 @@
               }
               this.$forceUpdate();
           });
+        }
+      },
+      rezolutionFormat: function(rezolution) {
+        if (!rezolution.latestUpdate) {
+          return '';
+        } else {
+          return rezolution.latestUpdate.status;
         }
       },
     },
