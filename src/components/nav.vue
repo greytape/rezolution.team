@@ -40,14 +40,16 @@
           <h4 class="grey-text text-darken-2">Login</h4><br />
           <form @submit.prevent="login" id="login-form">
             <div class="input-field">
-              <input v-model="existingUser.email" type="email" autocomplete="email" id="login-email" required />
+              <input v-model="existingUser.email" type="email" autocomplete="email" id="login-email" required class="validate"/>
               <label for="login-email">Email address</label>
+              <div class="helper-text" :data-error="emailError"></div>
             </div>
             <div class="input-field">
-              <input v-model="existingUser.password" autocomplete="current-password" type="password" id="login-password" required />
+              <input v-model="existingUser.password" autocomplete="current-password" type="password" id="login-password" class="validate" minlength="6" required/>
               <label for="login-password">Your password</label>
+              <div class="helper-text" :data-error="passwordError"></div>
             </div>
-            <button class="btn yellow darken-2 z-depth-0">Login</button>
+            <button id="login-button" class="btn yellow darken-2 z-depth-0">Login</button>
           </form>
         </div>
       </div>  
@@ -85,7 +87,9 @@ export default {
       existingUser: {
         email: '',
         password: '',
-      }
+      },
+      passwordError: 'Your password must contain at least 6 characters.',
+      emailError: 'Please enter a valid email address.',
     };
   }, 
   props: {
@@ -147,5 +151,15 @@ export default {
 
 
 <style>
+
+  div.helper-text {
+    position: static;
+    line-height: 24px;
+    margin-bottom: 10px;
+  }
+
+  #login-button {
+    margin-top: 10px;
+  }
 
 </style>
