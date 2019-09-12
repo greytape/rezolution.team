@@ -49,6 +49,7 @@
               <label for="login-password">Your password</label>
               <div class="helper-text" :data-error="passwordError"></div>
             </div>
+            <div class="error-panel card-panel red lighten-1" v-if="serverLoginError">That email password not/recognised, please try again</div>
             <button id="login-button" class="btn yellow darken-2 z-depth-0">Login</button>
           </form>
         </div>
@@ -89,7 +90,8 @@ export default {
         password: '',
       },
       passwordError: 'Your password must contain at least 6 characters.',
-      emailError: 'Please enter a valid email address.',
+      emailError: 'Please enter a valid email address.git ',
+      serverLoginError: false,
     };
   }, 
   props: {
@@ -126,7 +128,9 @@ export default {
         registerForm.reset();
         this.$router.push('/myAccount/' + this.user.uid);
       }).catch(err => {
-        console.log(err.code);
+        if (err.code === 'auth/user-not-found') {
+          this.serverLoginError = true;
+        }
       });
     },
     logout: function() {
@@ -160,6 +164,10 @@ export default {
 
   #login-button {
     margin-top: 10px;
+  }
+
+  div.error-panel {
+    padding: 6px;
   }
 
 </style>
