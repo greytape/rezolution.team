@@ -37,7 +37,7 @@
       </div>
       <div id="modal-login" class="modal">
         <div class="modal-content">
-          <h4>Login</h4><br />
+          <h4 class="grey-text text-darken-2">Login</h4><br />
           <form @submit.prevent="login" id="login-form">
             <div class="input-field">
               <input v-model="existingUser.email" type="email" autocomplete="email" id="login-email" required />
