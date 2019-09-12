@@ -16,7 +16,7 @@
           <th>Date of latest Update</th>
           <th>Status</th>
         </tr>
-        <tr v-for="rezolution in teamRezolutions" :key="rezolution.id">
+        <tr v-for="rezolution in teamRezolutions" :key="rezolution.id" :class="rezolutionFormat(rezolution)">
           <td>{{ rezolution.name }} </td>
           <td>{{ rezolution.userName }} </td>
           <td>{{ rezolution.updateFrequency }} </td>
@@ -119,6 +119,13 @@
       },
       checkValidEmail: function(allegedEmail) {
         return /\S+@\S+\.\S+/.test(allegedEmail);
+      },
+      rezolutionFormat: function(rezolution) {
+        if (!rezolution.latestUpdate) {
+          return '';
+        } else {
+          return rezolution.latestUpdate.status;
+        }
       },
       submitUserId: function(newUserId) {
         db.collection('teams').doc(this.teamId).update({
