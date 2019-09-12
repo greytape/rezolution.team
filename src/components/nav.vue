@@ -87,7 +87,7 @@ export default {
         password: '',
       }
     };
-  },
+  }, 
   props: {
     user: Object,
     isAuthenticated: Boolean,
