@@ -130,6 +130,7 @@
             this.myTeams[team].adminName = docSnapShot.data().firstName + ' ' + docSnapShot.data().lastName;
           });  
         }
+        this.$forceUpdate();
       },
       addLatestUpdates: function() {
         for (let rezolution in this.myRezolutions) {
