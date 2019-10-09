@@ -3,7 +3,7 @@
     <nav class="light-green darken-4">
       <div class="nav-wrapper container">
         <a href="#" data-target="slide-out" class="sidenav-trigger hide-on-large-only"><i class="material-icons">menu</i></a>
-        <router-link to="/" class="brand-logo permanent">rezolution.team</router-link>
+        <router-link to="/" class="brand-logo raleway">rezolution.team</router-link>
         <ul class="hide-on-med-and-down right">
           <li v-if="!isAuthenticated"><a href="#" class="modal-trigger" data-target="modal-login">Login</a></li>
           <li v-if="!isAuthenticated"><a href="#" class="orange darken-4 modal-trigger btn" data-target="modal-register">REGISTER HERE</a></li>

@@ -43,4 +43,8 @@
   font-family: 'Permanent Marker', cursive;
 }
 
+.raleway{
+  font-family: 'Raleway', sans-serif;
+}
+
 </style>

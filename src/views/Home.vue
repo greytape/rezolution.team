@@ -2,13 +2,13 @@
   <div>
     <div class="banner-image" id="image-1"></div>
     <div class="container">
-      <h2 class="permanent light-green-text text-darken-4 center-align">Get more done together</h2>
+      <h2 class="raleway light-green-text text-darken-4 center-align">Get more done together</h2>
       <div class="row intro-cards">
         <div class="col s12 m4">
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">group</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4">Work with friends</p>
+              <p class="flow-text raleway light-green-text text-darken-4">Work with friends</p>
             </div>
           </div>
         </div>
@@ -16,7 +16,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">timeline</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4">Track progress</p>
+              <p class="flow-text raleway light-green-text text-darken-4">Track progress</p>
             </div>
           </div>
         </div>
@@ -24,18 +24,18 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">done_outline</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4">Achieve your goals</p>
+              <p class="flow-text raleway light-green-text text-darken-4">Achieve your goals</p>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col s12 m6">
-          <h4 class="permanent light-green-text text-darken-4">Apply behavioural insights to help you achieve your goals</h4>
-          <p class="flow-text">Everyone has goals that they never quite get round to. At <span class="permanent light-green-text text-darken-4">rezolution.team</span>, we apply the power of behavioural science to ensure that you finally get these things done.</p>
+          <h4 class="raleway light-green-text text-darken-4">Apply behavioural insights to help you achieve your goals</h4>
+          <p class="flow-text">Everyone has goals that they never quite get round to. At <span class="raleway light-green-text text-darken-4">rezolution.team</span>, we apply the power of behavioural science to ensure that you finally get these things done.</p>
         </div>
         <div class="col s12 m6">
-          <h3 class="permanent light-green-text text-darken-4">68% of smokers want to quit, but only 26% attempt to do so in any year.</h3>
+          <h3 class="raleway light-green-text text-darken-4">68% of smokers want to quit, but only 26% attempt to do so in any year.</h3>
         </div>
       </div>
       <div class="row outro-cards">
@@ -43,7 +43,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">list_alt</i></div>
             <div class="card-content center-align">
-              <p class="flow-text permanent light-green-text text-darken-4">Make commitments</p>
+              <p class="flow-text raleway light-green-text text-darken-4">Make commitments</p>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">share</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4">Invite your friends</p>
+              <p class="flow-text raleway light-green-text text-darken-4">Invite your friends</p>
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">update</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4">Post regular updates</p>
+              <p class="flow-text raleway light-green-text text-darken-4">Post regular updates</p>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
           <div class="card-panel z-depth-3">
             <div class="center-align"><i class="large material-icons">forum</i></div>
             <div class="card-content">
-              <p class="flow-text permanent light-green-text text-darken-4">Discuss your progress</p>
+              <p class="flow-text raleway light-green-text text-darken-4">Discuss your progress</p>
             </div>
           </div>
         </div>
