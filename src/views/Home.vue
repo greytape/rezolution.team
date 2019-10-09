@@ -73,6 +73,9 @@
         </div>
       </div>
     </div>
+    <div class="center-align centred-button">
+      <a class="btn-large orange darken-4" @click.prevent="showRegistrationModal">REGISTER NOW</a>
+    </div>
     <div class="banner-image" id="image-2"></div>
   </div>
 </template>
@@ -89,7 +92,9 @@
       };
     },
     methods: {
-
+      showRegistrationModal: function() {
+        this.$emit('showRegistrationModal');
+      },
     },
   }
 </script>
@@ -128,5 +133,9 @@
 
   h4.center-align {
     margin: 0;
+  }
+
+  div.centred-button {
+    margin-bottom: 20px;
   }
 </style>
