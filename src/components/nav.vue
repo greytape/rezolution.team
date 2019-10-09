@@ -5,8 +5,8 @@
         <a href="#" data-target="slide-out" class="sidenav-trigger hide-on-large-only"><i class="material-icons">menu</i></a>
         <router-link to="/" class="brand-logo permanent">rezolution.team</router-link>
         <ul class="hide-on-med-and-down right">
-          <li v-if="!isAuthenticated"><a href="#" class="modal-trigger" data-target="modal-register">Register</a></li>
           <li v-if="!isAuthenticated"><a href="#" class="modal-trigger" data-target="modal-login">Login</a></li>
+          <li v-if="!isAuthenticated"><a href="#" class="orange darken-4 modal-trigger btn" data-target="modal-register">REGISTER HERE</a></li>
           <li v-if="isAuthenticated"><router-link :to="'/myAccount/' + user.uid">My Account</router-link></li>
           <li v-if="isAuthenticated"><a href="#" @click.prevent="logout">Logout</a></li>
         </ul>
