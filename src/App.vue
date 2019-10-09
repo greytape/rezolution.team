@@ -23,6 +23,9 @@
         auth.onAuthStateChanged(user => {
           if (user) {
             this.user = user;
+            if (this.$router.history.current.path === '/') {
+              this.$router.push(`/myAccount/${this.user.uid}`);
+            }
           } else {
             this.user = null;
             if (this.$router.history.current.path !== '/') {
