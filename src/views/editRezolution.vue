@@ -1,16 +1,17 @@
 <template>
   <div class="container">
+    <router-link :to="'/myAccount/' + this.$route.params.userId" ><button class="back-button btn light-green darken-4"><i class="inline-icon material-icons">arrow_back</i>my account</button></router-link>
     <form class="card edit-rezolution-form">
       <h5 class="light-green-text text-darken-4">Edit Rezolution</h5>
       <div class="row">
         <div class="input-field col s12">
           <input id="name" v-model="editedRezolution.name" type="text" class="validate">
-          <label for="name">Name</label>
+          <label class="active" for="name">Name</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="description" v-model="editedRezolution.description" class="validate materialize-textarea">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias adipisci facilis porro officiis ad facere consequuntur et mollitia hic iure eius quas, quasi possimus maxime aperiam minima dicta sed similique!</textarea>
+          <textarea id="description" v-model="editedRezolution.description" class="active validate materialize-textarea"></textarea>
           <label for="description">Description</label>
         </div>
       </div>
@@ -123,9 +124,25 @@ export default {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, {});
   },
+  updated: function() {
+    M.updateTextFields();
+  },
 }
 </script>
 
 <style scoped>
+  .edit-rezolution-form {
+    padding: 20px 60px;
+    margin: 0 auto;
+    width: 70%;
+  }
 
+  .back-button {
+    margin: 20px 150px;
+  }
+
+  .inline-icon {
+    vertical-align: bottom;
+    font-size: 18px;
+  }
 </style>

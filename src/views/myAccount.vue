@@ -27,6 +27,7 @@
           <th>Status</th>
           <th>See All Updates</th>
           <th>Provide Update</th>
+          <th>Edit Rezolution</th>
         </tr>
         <tr v-for="rezolution in myRezolutions" :key="rezolution.id" :class="rezolutionFormat(rezolution)">
           <td>{{ rezolution.name }}</td>
@@ -45,7 +46,8 @@
             <td> </td>
             <td> </td>
           </template>
-          <td><router-link :to="createUpdatePath(rezolution.id)"><i class="material-icons">create</i></router-link></td>
+          <td><router-link :to="createUpdatePath(rezolution.id)"><i class="material-icons">note_add</i></router-link></td>
+          <td><router-link :to="createEditPath(rezolution.id)"><i class="material-icons">create</i></router-link></td>
         </tr>
       </table>
       <router-link :to="createNewRezolutionPath"><button class="btn waves-effect waves-light light-green darken-4">Create New Rezolution</button></router-link>
@@ -96,6 +98,9 @@
     methods: {
       createUpdatePath(rezolutionId) {
         return '/myAccount/' + this.myInfo.id + '/' + rezolutionId + '/createUpdate';
+      },
+      createEditPath(rezolutionId) {
+        return '/myAccount/' + this.myInfo.id + '/' + rezolutionId + '/editRezolution';
       },
       fetchUserData() {
         db.collection('users').doc(this.userId).get().then(doc => {
@@ -148,7 +153,15 @@
         if (!rezolution.latestUpdate) {
           return '';
         } else {
-          return rezolution.latestUpdate.status;
+          if (rezolution.latestUpdate.status === 'red') {
+            return 'red-text text-darken-3'
+          }
+          if (rezolution.latestUpdate.status === 'amber') {
+            return 'amber-text text-darken-3'
+          };
+          if (rezolution.latestUpdate.status === 'green') {
+            return 'green-text text-darken-3'
+          };
         }
       },
     },
@@ -162,10 +175,10 @@
 </script>
 
 
-<style>
+<style scoped>
   .my-tables {
     padding: 20px 0;
-    margin: 10% auto;
+    margin: 0 auto;
   }
 
   .my-info {

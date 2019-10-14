@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <router-link :to="'/myAccount/' + user.uid" ><button class="back-button btn light-green darken-4"><i class="inline-icon material-icons">arrow_back</i>my account</button></router-link>
     <div class="col s12 card my-tables">
       <table>
         <h6>Rezolution Info</h6>
@@ -25,7 +26,7 @@
           <th>Date</th>
           <th>Status</th>
         </tr>
-        <tr v-for="update in rezolutionUpdates" :key="update.id">
+        <tr v-for="update in rezolutionUpdates" :key="update.id" :class="rezolutionFormat(update)">
           <td>{{ update.commentary }} </td>
           <td>{{ update.date }} </td>
           <td>{{ update.status }} </td>
@@ -40,6 +41,7 @@
   import { db } from '@/firebase/init'
 
   export default {
+    props: ['user'],
     data: function() {
       return {
         rezolutionId: this.$route.params.rezolutionId,
@@ -63,6 +65,21 @@
             this.$forceUpdate();
         });
       },
+      rezolutionFormat: function(rezolution) {
+        if (!rezolution.latestUpdate) {
+          return '';
+        } else {
+          if (rezolution.latestUpdate.status === 'red') {
+            return 'red-text text-darken-3'
+          }
+          if (rezolution.latestUpdate.status === 'amber') {
+            return 'amber-text text-darken-3'
+          };
+          if (rezolution.latestUpdate.status === 'green') {
+            return 'green-text text-darken-3'
+          };
+        }
+      },
     },
     created: function() {
       this.fetchRezolutionInfo();
@@ -73,5 +90,12 @@
 
 
 <style>
-  
+  .back-button {
+    margin: 20px 0;
+  }
+
+  .inline-icon {
+    vertical-align: bottom;
+    font-size: 18px;
+  }
 </style>

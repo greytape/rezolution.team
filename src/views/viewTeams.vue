@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <router-link :to="'/myAccount/' + this.user.uid" ><button class="back-button btn light-green darken-4"><i class="inline-icon material-icons">arrow_back</i>my account</button></router-link>
     <div class="col s12 card my-tables">
       <h4>{{ teamInfo.name }}</h4>
       <h6>{{ teamInfo.description }}</h6>
@@ -124,7 +125,15 @@
         if (!rezolution.latestUpdate) {
           return '';
         } else {
-          return rezolution.latestUpdate.status;
+          if (rezolution.latestUpdate.status === 'red') {
+            return 'red-text text-darken-3'
+          }
+          if (rezolution.latestUpdate.status === 'amber') {
+            return 'amber-text text-darken-3'
+          };
+          if (rezolution.latestUpdate.status === 'green') {
+            return 'green-text text-darken-3'
+          };
         }
       },
       submitUserId: function(newUserId) {
@@ -175,6 +184,15 @@
 <style>
   .my-tables {
     padding: 20px 60px;
-    margin: 10% auto;
+    margin: 10px auto;
+  }
+
+  .back-button {
+    margin: 20px 0;
+  }
+
+  .inline-icon {
+    vertical-align: bottom;
+    font-size: 18px;
   }
 </style>

@@ -1,7 +1,8 @@
 <template>
 
   <div class="container">
-    <form class="card new-team-form">
+    <router-link :to="'/myAccount/' + this.$route.params.userId" ><button class="back-button btn light-green darken-4"><i class="inline-icon material-icons">arrow_back</i>my account</button></router-link>
+    <form class="card create-update-form">
       <h5 class="light-green-text text-darken-4">Provide Update</h5>
       <div class="row">
         <div class="input-field col s12">
@@ -81,4 +82,20 @@
 
 </script>
 
-<style></style>
+<style>
+  .back-button {
+    margin: 20px 150px;
+  }
+
+  .create-update-form {
+    padding: 20px 60px;
+    margin: 0 auto;
+    width: 70%;
+  }
+
+  .inline-icon {
+    vertical-align: bottom;
+    font-size: 18px;
+  }
+
+</style>
